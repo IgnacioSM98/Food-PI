@@ -1,0 +1,55 @@
+.card {
+  width: 80%;
+  cursor: pointer;
+  border-radius: 20px;
+  background: white;
+  box-shadow: -4px 19px 38px -6px rgba(0, 0, 0, 0.9);
+  -webkit-box-shadow: -4px 19px 38px -6px rgba(0, 0, 0, 0.9);
+  -moz-box-shadow: -4px 19px 38px -6px rgba(0, 0, 0, 0.9);
+}
+
+.card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.card a {
+  text-decoration: none;
+}
+
+.info {
+  padding: 10px 20px;
+  overflow-wrap: break-word;
+}
+
+.titulo {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.titulo h3 {
+  text-align: center;
+  color: black;
+}
+
+h5 {
+  margin-top: 0px;
+  text-align: center;
+  color: black;
+}
+
+.types {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.types li {
+  margin-right: 1rem;
+  font-weight: 400;
+  color: gray;
+}
+
+img {
+  padding-top: 10px;
+}

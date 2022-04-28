@@ -1,0 +1,19 @@
+.search {
+  margin: 2rem 0;
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 5px 10px;
+  width: 400px;
+  text-align: center;
+  position: relative;
+}
+
+.search form input[type="text"] {
+  background: transparent;
+  border: none;
+  width: 80%;
+}
+
+.search form input[type="text"]:focus {
+  outline: none;
+}

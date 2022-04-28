@@ -1,0 +1,23 @@
+.container {
+  width: 100%;
+  height: 100vh;
+}
+
+.landing {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  width: 130px;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 2rem;
+  background: #201f32;
+  color: white;
+  padding: 10px 25px;
+}
