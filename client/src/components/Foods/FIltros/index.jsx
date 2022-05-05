@@ -1,39 +1,31 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getTypes } from "../../../actions";
+import { getTypes, setSort } from "../../../actions";
+import { connect } from "react-redux";
 import "./index.css";
 
-export default function Filtros({ setSort }) {
-  const dispatch = useDispatch();
-  const types = useSelector((state) => state.types);
-  const foods = useSelector((state) => state.foods);
+function Filtros(props) {
   const [typesOfDiets, setDiets] = useState([]);
 
   useEffect(() => {
-    const typesAux = foods?.map((food) => {
+    const typesAux = props.foods?.map((food) => {
       return food.diets?.map((diet) => {
         return diet.charAt(0).toUpperCase() + diet.slice(1);
       });
     });
 
     setDiets([...new Set(typesAux.flat())]);
-  }, [foods]);
+  }, [props.foods]);
 
   useEffect(() => {
-    dispatch(getTypes(typesOfDiets));
+    if (typesOfDiets.length > 0) {
+      props.getTypes(typesOfDiets);
+    }
   }, [typesOfDiets]);
 
-  const handleSortDiet = (e) => {
-    // dispatch(sortRecipesBy(e.target.value));
-  };
-
-  const handleFilterBy = (e) => {
-    // dispatch(filterBy(e.target.value));
-  };
-
   const handleOnChange = (e) => {
-    setSort(e.target.value);
+    props.setSort(e.target.value);
   };
 
   return (
@@ -63,10 +55,15 @@ export default function Filtros({ setSort }) {
           <option value="Highest SpoonScore">Lowest to highest score</option>
           <option value="Lowest SpoonScore">Highest to lowest score</option>
         </select>
-        <select name="diets" id="diets" defaultValue="DEFAULT">
+        <select
+          name="diets"
+          id="diets"
+          defaultValue="DEFAULT"
+          onChange={(e) => props.setSelected(e.target.value)}
+        >
           <option value="DEFAULT">Type of Diet</option>
-          {types.length > 0 ? (
-            types.map((type) => (
+          {props.types.length > 0 ? (
+            props.types.map((type) => (
               <option key={type.id} value={type.name}>
                 {type.name}
               </option>
@@ -79,3 +76,19 @@ export default function Filtros({ setSort }) {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    foods: state.foods,
+    types: state.types,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getTypes: (types) => dispatch(getTypes(types)),
+    setSort: (value) => dispatch(setSort(value)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filtros);

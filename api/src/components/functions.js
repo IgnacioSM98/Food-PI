@@ -4,7 +4,7 @@ const { Recipe, Diet } = require("../db");
 const getAllRecipes = async () => {
   try {
     let recipes = await axios.get(
-      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&addRecipeInformation=true&number=30`
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&addRecipeInformation=true&number=100`
     );
 
     recipes = recipes.data.results.map((res) => ({
@@ -21,6 +21,7 @@ const getAllRecipes = async () => {
       id: recipe.dataValues.id,
       name: recipe.dataValues.name,
       score: recipe.dataValues.score,
+      img: recipe.dataValues.image,
     }));
 
     recipes = recipes.concat(recipesDB);
@@ -54,30 +55,11 @@ const getRecipesDetails = async (id) => {
 };
 
 const getTypes = async (types) => {
-  // const TypesOfDiets = foods?.map((food) => {
-  //   return food.diets?.map((diet) => {
-  //     return diet.charAt(0).toUpperCase() + diet.slice(1);
-  //   });/
-  // });
   const dietsAux = types.split(",");
 
   const TypesOfDiets = dietsAux.map((diet) => ({
     name: diet,
   }));
-  console.log(TypesOfDiets, "xdxd");
-  // const TypesOfDiets = [
-  //   { name: "Gluten free" },
-  //   { name: "Ketogenic" },
-  //   { name: "Vegetarian" },
-  //   { name: "Lacto-Vegetarian" },
-  //   { name: "Ovo-Vegetarian" },
-  //   { name: "Vegan" },
-  //   { name: "Pescetarian" },
-  //   { name: "Paleo" },
-  //   { name: "Primal" },
-  //   { name: "Low FODMAP" },
-  //   { name: "Whole30" },
-  // ];
 
   try {
     if (TypesOfDiets) {

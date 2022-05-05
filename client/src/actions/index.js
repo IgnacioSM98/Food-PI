@@ -2,8 +2,9 @@ import axios from "axios";
 
 export const GET_FOODS = "GET_FOODS";
 export const GET_FOOD_DETAIL = "GET_FOOD_DETAIL";
-export const FILTER_FOODS = "FILTER_FOODS";
+export const GET_FILTER_FOODS = "GET_FILTER_FOODS";
 export const GET_TYPES = "GET_TYPES";
+export const SET_SORT = "SET_SORT";
 
 export function getFoods() {
   return function (dispatch) {
@@ -13,9 +14,9 @@ export function getFoods() {
   };
 }
 
-export function filterFoods(filteredFoods) {
+export function getFilterFoods(filteredFoods) {
   return function (dispatch) {
-    dispatch({ type: FILTER_FOODS, payload: filteredFoods });
+    dispatch({ type: GET_FILTER_FOODS, payload: filteredFoods });
   };
 }
 
@@ -28,11 +29,16 @@ export function getFoodDetail(id) {
 }
 
 export const getTypes = (types) => (dispatch) => {
-  console.log(types, "xd");
-  return axios.get(`http://localhost:3001/types?types=${types}`).then((json) =>
-    dispatch({
-      type: GET_TYPES,
-      payload: json,
-    })
-  );
+  return axios
+    .get(`http://localhost:3001/types?types=${types}`)
+    .then((json) => {
+      dispatch({
+        type: GET_TYPES,
+        payload: json.data,
+      });
+    });
+};
+
+export const setSort = (value) => (dispatch) => {
+  dispatch({ type: SET_SORT, payload: value });
 };

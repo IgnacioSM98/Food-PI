@@ -4,8 +4,19 @@ import Landing from "./components/Landing";
 import Foods from "./components/Foods";
 import CreateFood from "./components/CreateFood";
 import FoodDetail from "./components/FoodDetail";
+import { getFoods } from "./actions";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
+  const foods = useSelector((state) => state.foods);
+  const filteredFoods = useSelector((state) => state.filteredFoods);
+
+  // useEffect(() => {
+  //   dispatch(getFoods());
+  // }, []);
+
   return (
     <div className="App">
       <Routes>

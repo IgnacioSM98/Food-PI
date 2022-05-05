@@ -29,6 +29,7 @@ export default function Dropdown({ selected, setSelected, foods }) {
               <div
                 className="dropdown-item"
                 onClick={() => {
+                  console.log(option, "dropdown");
                   setSelected(option);
                   setActive(false);
                 }}

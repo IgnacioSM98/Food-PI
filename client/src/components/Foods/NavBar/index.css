@@ -1,0 +1,7 @@
+.NavBar {
+  display: flex;
+}
+
+.NavBar img {
+  height: 200px;
+}

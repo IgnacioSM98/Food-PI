@@ -1,73 +1,73 @@
 .glass {
-    height: 100vh;
-    /* From https://css.glass */
-    background: rgba(184, 184, 184, 0.76);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(18.9px);
-    -webkit-backdrop-filter: blur(18.9px);
-    overflow: auto;
+  height: 100vh;
+  background: rgba(184, 184, 184, 0.76);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  overflow: auto;
 }
 
 .details {
-    max-width: 1400px;
-    margin: auto;
-    margin-top: 1rem;
-    display: grid;
-    grid-template-columns: auto auto;
+  max-width: 1400px;
+  margin: auto;
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: auto auto;
 }
 
 .back {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .head {
-    text-align: center;
+  text-align: center;
 }
 .head img {
-    width: 80%;
-    height: 450px;
-    box-shadow: 0 2px 15px rgb(0 0 0 / 50%);
+  width: 80%;
+  height: 450px;
+  box-shadow: 0 2px 15px rgb(0 0 0 / 50%);
+  padding: 0;
 }
 
 .head h2 {
-    font-size: 2rem;
-    text-transform: capitalize;
-    color: #5c809c;
-    font-stretch: semi-expanded;
-    letter-spacing: 0.3rem;
-    margin-top: 1.5rem;
+  font-size: 2rem;
+  text-transform: capitalize;
+  color: #5c809c;
+  font-stretch: semi-expanded;
+  letter-spacing: 0.3rem;
+  margin-top: 1.5rem;
 }
 
 .attributes {
-    display: flex;
-    justify-content: center;
-    margin-top: 1.5rem;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .attributes h4 {
-    margin-right: 2rem;
+  margin-right: 2rem;
 }
 
 .attributes h5 {
-    width: 100%;
-    font-size: 1.2rem;
-    margin-top: 1rem;
+  width: 100%;
+  font-size: 1.2rem;
+  margin-top: 1rem;
 }
 
 .info {
-    text-align: justify;
+  text-align: justify;
 }
 
 .info h3 {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .info div {
-    padding: 20px;
+  padding: 20px;
 }

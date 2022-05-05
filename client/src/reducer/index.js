@@ -1,8 +1,9 @@
 import {
   GET_FOODS,
-  FILTER_FOODS,
+  GET_FILTER_FOODS,
   GET_FOOD_DETAIL,
   GET_TYPES,
+  SET_SORT,
 } from "../actions";
 
 const initialState = {
@@ -25,7 +26,7 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         foodDetail: action.payload,
       };
-    case FILTER_FOODS:
+    case GET_FILTER_FOODS:
       return {
         ...state,
         filteredFoods: action.payload,
@@ -33,8 +34,34 @@ export default function rootReducer(state = initialState, action) {
     case GET_TYPES:
       return {
         ...state,
-        types: action.payload.data,
+        types: action.payload,
       };
+    case SET_SORT:
+      if (action.payload !== "DEFAULT") {
+        const filteredAux = [...state.filteredFoods];
+
+        filteredAux.sort((a, b) => {
+          if (action.payload === "A-Z")
+            return a.name > b.name ? 1 : b.name > a.name ? -1 : 0;
+          if (action.payload === "Z-A")
+            return a.name < b.name ? 1 : b.name < a.name ? -1 : 0;
+          if (action.payload === "Highest SpoonScore")
+            return a.score > b.score ? 1 : b.score > a.score ? -1 : 0;
+          if (action.payload === "Lowest SpoonScore")
+            return a.score < b.score ? 1 : b.score < a.score ? -1 : 0;
+        });
+
+        return {
+          ...state,
+          filteredFoods: filteredAux,
+        };
+      }
+
+      return {
+        ...state,
+        filteredFoods: [...state.foods],
+      };
+
     default:
       return state;
   }

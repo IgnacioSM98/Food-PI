@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { filterFoods } from "../../../actions";
+import { getFilterFoods } from "../../../actions";
 import "./index.css";
 
 function SearchBar(props) {
@@ -8,6 +8,12 @@ function SearchBar(props) {
     const value = e.target.value;
 
     props.setResVis(0);
+
+    props.setFlag(true);
+
+    if (!value) {
+      props.setFlag(false);
+    }
 
     const arrayAux = props.foods.filter((food) => {
       const name = food.name.toLowerCase();
@@ -19,7 +25,7 @@ function SearchBar(props) {
         return food;
       }
     });
-    props.filterFoods(arrayAux);
+    props.getFilterFoods(arrayAux);
   }
 
   return (
@@ -45,7 +51,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    filterFoods: (foods) => dispatch(filterFoods(foods)),
+    getFilterFoods: (foods) => dispatch(getFilterFoods(foods)),
   };
 }
 
