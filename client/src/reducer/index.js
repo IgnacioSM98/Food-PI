@@ -80,9 +80,6 @@ export default function rootReducer(state = initialState, action) {
         filteredFoods: state.foods,
       };
     case CREATE:
-      console.log(action.payload, "xd?????");
-      localStorage.setItem("foods", JSON.stringify(action.payload));
-
       return {
         ...state,
         foods: state.foods.concat(action.payload),

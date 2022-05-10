@@ -1,13 +1,20 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { validate } from "../index";
+import { getTypes } from "../../../actions";
 
 export default function Types({
   handleRemoveType,
   handleAddType,
   diets,
-  onBlur,
+  setErrors,
 }) {
+  const dispatch = useDispatch();
   const types = useSelector((state) => state.types);
+
+  useEffect(() => {
+    dispatch(getTypes());
+  }, []);
 
   const handleChange = (e) => {
     const id = parseInt(e.target.value);
@@ -22,7 +29,12 @@ export default function Types({
           name="tipos"
           defaultValue="default"
           onChange={handleChange}
-          onBlur={onBlur}
+          onBlur={(e) =>
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              [e.target.name]: validate(e.target.value, e.target.name),
+            }))
+          }
         >
           <option value="default" disabled>
             Tipos de Dieta

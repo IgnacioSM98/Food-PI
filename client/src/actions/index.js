@@ -38,14 +38,18 @@ export function getFoodDetail(id) {
 }
 
 export const getTypes = (types) => (dispatch) => {
-  return axios
-    .get(`http://localhost:3001/types?types=${types}`)
-    .then((json) => {
+  const data = JSON.parse(localStorage.getItem("types"));
+
+  if (data) {
+    dispatch({ type: GET_TYPES, payload: data });
+  } else {
+    axios.get(`http://localhost:3001/types?types=${types}`).then((json) => {
       dispatch({
         type: GET_TYPES,
         payload: json.data,
       });
     });
+  }
 };
 
 export const setSort = (value) => (dispatch) => {

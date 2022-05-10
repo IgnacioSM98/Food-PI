@@ -11,6 +11,7 @@ export default function Landing() {
 
   useEffect(() => {
     localStorage.removeItem("foods");
+    localStorage.removeItem("types");
     dispatch(getFoods());
   }, []);
 

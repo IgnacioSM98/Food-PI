@@ -30,7 +30,7 @@ router.get("/recipes", async (req, res) => {
       todasRecetas = todasRecetasAux;
     }
 
-    res.json(todasRecetas);
+    res.status(200).json(todasRecetas);
   } catch (error) {
     res.status(400).json({ msg: error });
   }
@@ -72,7 +72,7 @@ router.post("/createFood", async (req, res) => {
     healthyLvl,
     instructions,
     image,
-    types: diets.map((e) => e.name).join(", "),
+    types: diets.map((e) => e.name.toLowerCase()).join(","),
   });
 
   res.send({

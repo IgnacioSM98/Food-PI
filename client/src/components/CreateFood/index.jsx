@@ -24,11 +24,29 @@ const msg = {
   instructions: "Las instrucciones son obligatorias",
 };
 
+export const validate = (value, name) => {
+  if (!value) return msg[name];
+
+  if (name === "score" && value > 100) {
+    return "El puntaje no debe ser mayor a 100";
+  }
+
+  if (name === "healthyLvl" && value > 100) {
+    return "La calificación no puede ser mayor a 100";
+  }
+
+  console.log(name, value, "hola");
+  if (name === "tipos" && value === "default") {
+    return "Seleccione al menos una dieta";
+  }
+};
+
 const FormCreate = () => {
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState();
 
   const recipeCreated = useSelector((state) => state.recipeCreated);
+  const foods = useSelector((state) => state.foods);
   const [showElement, setShowElement] = useState(false);
   const dispatch = useDispatch();
 
@@ -56,21 +74,6 @@ const FormCreate = () => {
     }
   };
 
-  const validate = (value, name) => {
-    if (!value) return msg[name];
-
-    if (form.score > 100) {
-      return "El puntaje no debe ser mayor a 100";
-    }
-
-    if (form.healthyLvl > 100) {
-      return "La calificación no puede ser mayor a 100";
-    }
-    if (name === "tipos" && form.diets.length === 0) {
-      return "Seleccione al menos una dieta";
-    }
-  };
-
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -95,6 +98,10 @@ const FormCreate = () => {
   };
 
   useEffect(() => {
+    if (Object.keys(recipeCreated).length > 0) {
+      localStorage.setItem("foods", JSON.stringify(foods));
+    }
+
     setTimeout(function () {
       setShowElement(false);
     }, 3000);
@@ -218,15 +225,10 @@ const FormCreate = () => {
                 handleAddType={handleAddType}
                 diets={form.diets}
                 onChange={handleChange}
-                onBlur={(e) => {
-                  setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    [e.target.name]: validate(e.target.value, e.target.name),
-                  }));
-                }}
+                setErrors={setErrors}
               />
             </div>
-            <p className="errors">{errors?.tipos?.message}</p>
+            <p className="errors">{errors?.tipos}</p>
 
             <button type="submit" className="btn">
               Guardar

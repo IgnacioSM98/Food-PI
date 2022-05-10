@@ -8,13 +8,15 @@ function Filtros(props) {
   const [typesOfDiets, setDiets] = useState([]);
 
   useEffect(() => {
-    const typesAux = props.foods?.map((food) => {
-      return food.diets?.map((diet) => {
-        return diet.charAt(0).toUpperCase() + diet.slice(1);
+    if (props.foods.length > 0) {
+      const typesAux = props.foods?.map((food) => {
+        return food.diets?.map((diet) => {
+          return diet.charAt(0).toUpperCase() + diet.slice(1);
+        });
       });
-    });
 
-    setDiets([...new Set(typesAux.flat())]);
+      setDiets([...new Set(typesAux.flat())]);
+    }
   }, [props.foods]);
 
   useEffect(() => {
@@ -22,6 +24,12 @@ function Filtros(props) {
       props.getTypes(typesOfDiets);
     }
   }, [typesOfDiets]);
+
+  useEffect(() => {
+    if (props.types.length > 0) {
+      localStorage.setItem("types", JSON.stringify(props.types));
+    }
+  }, [props.types]);
 
   const handleOnChange = (e) => {
     props.setSort(e.target.value);
@@ -62,7 +70,7 @@ function Filtros(props) {
         >
           <option value="DEFAULT">Type of Diet</option>
           {props.types.length > 0 ? (
-            props.types.map((type) => (
+            props.types?.map((type) => (
               <option key={type.id} value={type.name}>
                 {type.name}
               </option>
