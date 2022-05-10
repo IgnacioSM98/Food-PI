@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import { saveNewRecipe } from "../../Redux/Actions/actions";
+import React, { useEffect, useState } from "react";
 import Types from "./Types";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import "./index.css";
+import { useDispatch, useSelector } from "react-redux";
+import { createFood } from "../../actions";
 
 const initialForm = {
   image: "",
@@ -16,11 +15,22 @@ const initialForm = {
   diets: [],
 };
 
+const msg = {
+  image: "Se debe ingresar una foto",
+  name: "Se debe completar el nombre",
+  resumen: "Se debe completar con una descripcion",
+  score: "El puntaje es obligatorio",
+  healthyLvl: "La calificacion es obligatoria",
+  instructions: "Las instrucciones son obligatorias",
+};
+
 const FormCreate = () => {
   const [form, setForm] = useState(initialForm);
-  const { register, handleSubmit, formState } = useForm();
+  const [errors, setErrors] = useState();
 
   const recipeCreated = useSelector((state) => state.recipeCreated);
+  const [showElement, setShowElement] = useState(false);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setForm({
@@ -46,32 +56,49 @@ const FormCreate = () => {
     }
   };
 
-  const onSubmit = () => {
+  const validate = (value, name) => {
+    if (!value) return msg[name];
+
+    if (form.score > 100) {
+      return "El puntaje no debe ser mayor a 100";
+    }
+
+    if (form.healthyLvl > 100) {
+      return "La calificación no puede ser mayor a 100";
+    }
+    if (name === "tipos" && form.diets.length === 0) {
+      return "Seleccione al menos una dieta";
+    }
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    let flag = "";
+
+    for (const prop in form) {
+      flag = validate(form[prop], prop);
+
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [prop]: validate(form[prop], prop),
+      }));
+    }
     const formData = new FormData();
 
-    formData.append("image", form.image);
-    formData.append("name", form.name);
-    formData.append("resumen", form.resumen);
-    formData.append("score", form.score);
-    formData.append("healthyLvl", form.healthyLvl);
-    formData.append("instructions", form.instructions);
-    formData.append("diets", form.diets);
-
-    axios
-      .post("http://localhost:3001/createFood", formData)
-      .then((res) => console.log(res));
-
-    // axios
-    //   .post("http://localhost:3001/createFood", form, {
-    //     headers: {
-    //       "Access-Control-Allow-Origin": "*",
-    //       "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, OPTIONS",
-    //     },
-    //   })
-    //   .then((res) => console.log(res))
-    //   .catch((err) => console.log(err));
-    // setForm(initialForm);
+    if (!flag) {
+      formData.append("file", form.image);
+      formData.append("upload_preset", "preset");
+      dispatch(createFood(formData, form));
+      setShowElement(true);
+    }
   };
+
+  useEffect(() => {
+    setTimeout(function () {
+      setShowElement(false);
+    }, 3000);
+  }, [recipeCreated]);
 
   return (
     <>
@@ -79,84 +106,127 @@ const FormCreate = () => {
         <div className="section">
           <form
             className="form_items"
-            onSubmit={handleSubmit(onSubmit)}
-            method="POST"
-            encType="multipart/form-data"
+            onSubmit={onSubmit}
+            // method="POST"
+            // encType="multipart/form-data"
           >
             <div className="group">
               <input
                 type="file"
                 name="image"
-                onChange={(e) =>
+                onChange={(e) => {
                   setForm({
                     ...form,
                     [e.target.name]: e.target.files[0],
-                  })
-                }
+                  });
+                }}
+                onBlur={(e) => {
+                  setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    [e.target.name]: validate(e.target.files[0], e.target.name),
+                  }));
+                }}
               />
             </div>
+            <p className="errors">{errors?.image}</p>
 
             <div className="group">
               <input
                 type="text"
                 name="name"
                 placeholder="Mi receta favorita"
-                value={form.name}
-                {...register("name", { required: true, minLength: 4 })}
                 onChange={handleChange}
+                onBlur={(e) =>
+                  setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    [e.target.name]: validate(e.target.value, e.target.name),
+                  }))
+                }
               />
-              {formState?.errors?.name && <span>Name is invalid</span>}
             </div>
+            <p className="errors">{errors?.name}</p>
+
             <div className="group">
               <textarea
                 name="resumen"
                 cols="30"
                 rows="4"
                 placeholder="Describe lo asombrosa que es tu receta"
-                value={form.resumen}
-                {...register("resumen")}
                 onChange={handleChange}
+                onBlur={(e) =>
+                  setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    [e.target.name]: validate(e.target.value, e.target.name),
+                  }))
+                }
               ></textarea>
             </div>
+            <p className="errors">{errors?.resumen}</p>
+
             <div className="group">
               <input
                 type="number"
                 name="score"
-                id="score"
                 placeholder="Puntuación"
-                value={form.score}
                 onChange={handleChange}
+                onBlur={(e) => {
+                  setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    [e.target.name]: validate(e.target.value, e.target.name),
+                  }));
+                }}
               />
             </div>
+            <p className="errors">{errors?.score}</p>
+
             <div className="group">
               <input
                 type="number"
                 name="healthyLvl"
-                id="healthyLvl"
                 placeholder="¿Qué tan saludable es?"
-                {...register("healthyLvl")}
-                value={form.healthyLvl}
                 onChange={handleChange}
+                onBlur={(e) => {
+                  setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    [e.target.name]: validate(e.target.value, e.target.name),
+                  }));
+                }}
               />
             </div>
+            <p className="errors">{errors?.healthyLvl}</p>
+
             <div className="group">
               <textarea
                 name="instructions"
-                id="instructions"
                 cols="30"
                 rows="5"
-                placeholder="Cuéntanos cómo se prepara, todos queremos saber"
-                value={form.instructions}
+                placeholder="Contanos cómo se prepara"
                 onChange={handleChange}
+                onBlur={(e) => {
+                  setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    [e.target.name]: validate(e.target.value, e.target.name),
+                  }));
+                }}
               ></textarea>
             </div>
+            <p className="errors">{errors?.instructions}</p>
+
             <div className="types_group">
               <Types
                 handleRemoveType={handleRemoveType}
                 handleAddType={handleAddType}
                 diets={form.diets}
+                onChange={handleChange}
+                onBlur={(e) => {
+                  setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    [e.target.name]: validate(e.target.value, e.target.name),
+                  }));
+                }}
               />
             </div>
+            <p className="errors">{errors?.tipos?.message}</p>
 
             <button type="submit" className="btn">
               Guardar
@@ -164,15 +234,14 @@ const FormCreate = () => {
           </form>
         </div>
       </div>
-
-      {/* {recipeCreated && Object.keys(recipeCreated).length > 0 && (
-          <div className="msg">
-            <h5>Receta creada</h5>
-            <div>
-              <span>{recipeCreated.name}</span>
-            </div>
+      {showElement && Object.keys(recipeCreated).length > 0 && (
+        <div className="msg">
+          <h5>Receta creada</h5>
+          <div>
+            <span>{recipeCreated.name}</span>
           </div>
-        )} */}
+        </div>
+      )}
     </>
   );
 };

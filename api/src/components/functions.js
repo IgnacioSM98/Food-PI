@@ -22,6 +22,7 @@ const getAllRecipes = async () => {
       name: recipe.dataValues.name,
       score: recipe.dataValues.score,
       img: recipe.dataValues.image,
+      diets: recipe.dataValues.types.split(","),
     }));
 
     recipes = recipes.concat(recipesDB);
@@ -41,16 +42,17 @@ const getRecipesDetails = async (id) => {
     return {
       id: data.id,
       name: data.title,
-      img: data.image,
-      summary: data.summary,
+      image: data.image,
+      resumen: data.summary,
       score: data.spoonacularScore,
-      healthScore: data.healthScore,
+      healthyLvl: data.healthScore,
       instructions: data.instructions,
-      dishTypes: data.dishTypes,
       diets: data.diets,
     };
-  } catch (error) {
-    console.log(error);
+  } catch {
+    let recipesDB = await Recipe.findByPk(id);
+
+    return recipesDB;
   }
 };
 

@@ -50,6 +50,8 @@ h5 {
   color: gray;
 }
 
-img {
+.food-img {
   padding-top: 10px;
+  height: 241px;
+  width: 312px;
 }

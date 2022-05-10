@@ -1,14 +1,18 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 
-export default function Types({ handleRemoveType, handleAddType, diets }) {
-  let types = useSelector((state) => state.types);
+export default function Types({
+  handleRemoveType,
+  handleAddType,
+  diets,
+  onBlur,
+}) {
+  const types = useSelector((state) => state.types);
 
   const handleChange = (e) => {
     const id = parseInt(e.target.value);
     const obj = types.find((type) => type.id === id);
 
-    //setArrayTypes(arrayTypes.filter(type => type.id !== id))
     handleAddType(obj);
   };
   return (
@@ -16,9 +20,9 @@ export default function Types({ handleRemoveType, handleAddType, diets }) {
       <div className="types_select">
         <select
           name="tipos"
-          id="tipos"
           defaultValue="default"
           onChange={handleChange}
+          onBlur={onBlur}
         >
           <option value="default" disabled>
             Tipos de Dieta

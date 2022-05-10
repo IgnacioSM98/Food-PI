@@ -5,7 +5,7 @@ export default function CreateFood() {
   return (
     <div>
       <Link to="/createFood">
-        <button>Crea pa</button>
+        <button>Crea tu receta</button>
       </Link>
     </div>
   );

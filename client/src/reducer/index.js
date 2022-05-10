@@ -4,6 +4,9 @@ import {
   GET_FOOD_DETAIL,
   GET_TYPES,
   SET_SORT,
+  GET_FOODS_NAME,
+  RESET,
+  CREATE,
 } from "../actions";
 
 const initialState = {
@@ -11,16 +14,19 @@ const initialState = {
   foodDetail: {},
   filteredFoods: [],
   types: [],
+  recipeCreated: {},
 };
 
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     case GET_FOODS:
-      return {
-        ...state,
-        foods: action.payload,
-        filteredFoods: action.payload,
-      };
+      if (action.payload) {
+        return {
+          ...state,
+          foods: action.payload,
+          filteredFoods: action.payload,
+        };
+      }
     case GET_FOOD_DETAIL:
       return {
         ...state,
@@ -61,7 +67,28 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         filteredFoods: [...state.foods],
       };
+    case GET_FOODS_NAME:
+      return {
+        ...state,
+        foods: action.payload,
+        filteredFoods: action.payload,
+      };
+    case RESET:
+      return {
+        ...state,
+        foodDetail: {},
+        filteredFoods: state.foods,
+      };
+    case CREATE:
+      console.log(action.payload, "xd?????");
+      localStorage.setItem("foods", JSON.stringify(action.payload));
 
+      return {
+        ...state,
+        foods: state.foods.concat(action.payload),
+        filteredFoods: state.filteredFoods.concat(action.payload),
+        recipeCreated: action.payload,
+      };
     default:
       return state;
   }

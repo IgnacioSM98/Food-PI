@@ -26,13 +26,14 @@ input {
 .msg {
   position: absolute;
   top: 20%;
-  right: 0;
-  z-index: 10;
+  left: 0;
   padding: 20px;
   background: #f6eada;
-  border-bottom-left-radius: 10px;
-  border-top-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
   box-shadow: -1px 1px 10px -1px rgba(0, 0, 0, 0.83);
-  -webkit-box-shadow: -1px 1px 10px -1px rgba(0, 0, 0, 0.83);
-  -moz-box-shadow: -1px 1px 10px -1px rgba(0, 0, 0, 0.83);
+}
+
+.errors {
+  color: red;
 }

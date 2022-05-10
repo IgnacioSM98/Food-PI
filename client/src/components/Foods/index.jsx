@@ -18,7 +18,13 @@ function Foods(props) {
   const [flag, setFlag] = useState(false);
 
   useEffect(() => {
-    props.getFoods();
+    if (props.foods.length === 0) props.getFoods();
+
+    setTimeout(function () {
+      if (props.foods.length === 0) {
+        setFlag(true);
+      }
+    }, 5000);
   }, []);
 
   useEffect(() => {
@@ -27,15 +33,18 @@ function Foods(props) {
 
   useEffect(() => {
     setPages(Math.ceil(props.foods.length / 9));
+
+    // para cuando se busca por la barra de arriba
+    setTimeout(function () {
+      if (props.foods.length === 0) {
+        setFlag(true);
+      }
+    }, 5000);
   }, [props.foods]);
 
   useEffect(() => {
     setPages(Math.ceil(props.filteredFoods.filter(filterDropdown).length / 9));
   }, [selected]);
-
-  useEffect(() => {
-    console.log(props.foods.length, props.filteredFoods.length, pages, "uwu");
-  }, [pages]);
 
   const filterPerPages = (food, i) => {
     if (i >= 9 * (pageSelected - 1) && i <= 9 * pageSelected - 1) {
@@ -44,7 +53,7 @@ function Foods(props) {
   };
 
   const filterDropdown = (food) => {
-    if (!selected || food.diets.includes(selected.toLowerCase())) {
+    if (!selected || food.diets?.includes(selected.toLowerCase())) {
       return food;
     }
 
@@ -75,7 +84,6 @@ function Foods(props) {
               .filter(filterDropdown)
               .filter(filterPerPages)
               .map((food) => {
-                if (food.name === "poshito") console.log(food);
                 return (
                   <Food
                     key={food.id}
@@ -93,7 +101,9 @@ function Foods(props) {
         )}
 
         {flag === false && props.filteredFoods.length === 0 ? (
-          <div className="loader"></div>
+          <div className="loader-container">
+            <div className="loader"></div>
+          </div>
         ) : (
           <></>
         )}

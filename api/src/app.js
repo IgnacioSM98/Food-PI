@@ -32,8 +32,6 @@ server.use(
   })
 );
 
-server.use("/images", express.static("./src/Images"));
-
 server.use("/", routes);
 
 // Error catching endware.

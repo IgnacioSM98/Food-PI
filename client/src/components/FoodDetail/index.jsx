@@ -17,7 +17,9 @@ function FoodDetail(props) {
       {Object.entries(props.foodDetail).length !== 0 ? (
         <Details foodDetail={props.foodDetail} />
       ) : (
-        <div className="loader"></div>
+        <div className="loader-container">
+          <div className="loader"></div>
+        </div>
       )}
     </>
   );

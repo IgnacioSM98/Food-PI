@@ -1,4 +1,5 @@
 import React from "react";
+import "./index.css";
 
 export default function Pagination({ pages, setPageSelected }) {
   const handleOnClick = (e) => {
@@ -20,7 +21,7 @@ export default function Pagination({ pages, setPageSelected }) {
   };
 
   return (
-    <div>
+    <div className="pages">
       {getArray(pages).map((page) => (
         <button key={page} onClick={(e) => handleOnClick(e)} value={page}>
           {page}
