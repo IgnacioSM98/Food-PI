@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import CreateFood from "../../CreateFoodButton";
-import { getRecipesByName, getFoods } from "../../../actions";
+import { Link } from "react-router-dom";
+import { getRecipesByName, getFoods } from "../../../../actions";
 import { connect } from "react-redux";
 import "./index.css";
 
@@ -29,7 +29,12 @@ function SearchNavBar(props) {
         onKeyDown={handleKeyDown}
       />
       <input type="submit" onClick={handleSearch} />
-      <CreateFood />
+
+      <div>
+        <Link to="/createFood">
+          <button>Crea tu receta</button>
+        </Link>
+      </div>
     </div>
   );
 }

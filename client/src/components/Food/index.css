@@ -2,7 +2,7 @@
   width: 80%;
   cursor: pointer;
   border-radius: 20px;
-  background: white;
+  background: #f5f3bc61;
   box-shadow: -4px 19px 38px -6px rgba(0, 0, 0, 0.9);
   -webkit-box-shadow: -4px 19px 38px -6px rgba(0, 0, 0, 0.9);
   -moz-box-shadow: -4px 19px 38px -6px rgba(0, 0, 0, 0.9);
@@ -54,4 +54,5 @@ h5 {
   padding-top: 10px;
   height: 241px;
   width: 312px;
+  object-fit: cover;
 }

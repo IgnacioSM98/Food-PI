@@ -13,7 +13,6 @@ export default function Food({ id, name, score, img, diets }) {
           </div>
           <h5>Score: {score}</h5>
           <ul className="types">
-            {name === "milanesas" ? console.log(diets) : <></>}
             {diets?.map((tipo, index) => (
               <li key={index}>
                 {tipo.charAt(0).toUpperCase() + tipo.slice(1)}

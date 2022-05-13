@@ -13,7 +13,7 @@ function FoodDetail(props) {
   }, []);
 
   return (
-    <>
+    <div className="detail">
       {Object.entries(props.foodDetail).length !== 0 ? (
         <Details foodDetail={props.foodDetail} />
       ) : (
@@ -21,7 +21,7 @@ function FoodDetail(props) {
           <div className="loader"></div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

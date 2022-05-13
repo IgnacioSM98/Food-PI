@@ -72,7 +72,6 @@ export const createFood = (image, form) => (dispatch) => {
   axios
     .post("https://api.cloudinary.com/v1_1/db4adidql/upload", image)
     .then((res) => {
-      console.log(form, "1");
       form.image = res.data.secure_url;
 
       axios

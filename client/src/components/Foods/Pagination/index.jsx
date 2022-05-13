@@ -6,6 +6,8 @@ export default function Pagination({ pages, setPageSelected }) {
     e.preventDefault();
 
     setPageSelected(e.target.value);
+
+    window.scrollTo(0, 0);
   };
   const getArray = (pages) => {
     let i = 0;

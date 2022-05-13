@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import "./index.css";
 import { useDispatch, useSelector } from "react-redux";
 import { createFood } from "../../actions";
+import { getFoods } from "../../actions";
 
 const initialForm = {
   image: "",
@@ -35,7 +36,6 @@ export const validate = (value, name) => {
     return "La calificación no puede ser mayor a 100";
   }
 
-  console.log(name, value, "hola");
   if (name === "tipos" && value === "default") {
     return "Seleccione al menos una dieta";
   }
@@ -49,6 +49,10 @@ const FormCreate = () => {
   const foods = useSelector((state) => state.foods);
   const [showElement, setShowElement] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (foods.length === 0) dispatch(getFoods());
+  }, []);
 
   const handleChange = (e) => {
     setForm({
@@ -111,12 +115,7 @@ const FormCreate = () => {
     <>
       <div className="container">
         <div className="section">
-          <form
-            className="form_items"
-            onSubmit={onSubmit}
-            // method="POST"
-            // encType="multipart/form-data"
-          >
+          <form className="form_items" onSubmit={onSubmit}>
             <div className="group">
               <input
                 type="file"
